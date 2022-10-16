@@ -166,7 +166,42 @@ Config.MenuItems = {
                         }
                     }
                 }
-            }, {
+            },  {
+                id = 'ballgames',
+                title = 'Ball Games',
+                icon = 'baseball-bat-ball',
+                items = {
+                    {
+                        id = 'football',
+                        title = 'Football',
+                        icon = 'futbol',
+                        type = 'client',
+                        event = 'actionwithballs:client:',
+                        shouldClose = true
+                    }, {
+                        id = 'basketball',
+                        title = 'Basketball',
+                        icon = 'basketball',
+                        type = 'client',
+                        event = 'CreateBall("prop_bskball_01")',
+                        shouldClose = true
+                    }, {
+                        id = 'volley1',
+                        title = 'Volley Ball 1',
+                        icon = 'volleyball',
+                        type = 'client',
+                        event = 'CreateBall("prop_beach_volball01")',
+                        shouldClose = true
+                    }, {
+                        id = 'volley2',
+                        title = 'Volley Ball 2',
+                        icon = 'volleyball',
+                        type = 'client',
+                        event = 'CreateBall("prop_beach_volball02")',
+                        shouldClose = true
+                    }, 
+                }
+            },{
                 id = 'clothesmenu',
                 title = 'Clothing',
                 icon = 'shirt',
