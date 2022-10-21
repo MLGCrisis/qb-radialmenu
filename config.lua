@@ -176,30 +176,44 @@ Config.MenuItems = {
                         title = 'Football',
                         icon = 'futbol',
                         type = 'client',
-                        event = 'actionwithballs:client:',
+                        event = 'createballsoc',
                         shouldClose = true
                     }, {
                         id = 'basketball',
                         title = 'Basketball',
                         icon = 'basketball',
                         type = 'client',
-                        event = 'CreateBall("prop_bskball_01")',
+                        event = 'createballbask',
                         shouldClose = true
                     }, {
                         id = 'volley1',
                         title = 'Volley Ball 1',
                         icon = 'volleyball',
                         type = 'client',
-                        event = 'CreateBall("prop_beach_volball01")',
+                        event = 'createballvol1',
                         shouldClose = true
                     }, {
                         id = 'volley2',
                         title = 'Volley Ball 2',
                         icon = 'volleyball',
                         type = 'client',
-                        event = 'CreateBall("prop_beach_volball02")',
+                        event = 'createballvol2',
                         shouldClose = true
-                    }, 
+                    },{
+                        id = 'beachball1',
+                        title = 'Beach Ball 1',
+                        icon = 'baseball',
+                        type = 'client',
+                        event = 'createballbea1',
+                        shouldClose = true
+                    },{
+                        id = 'beachball2',
+                        title = 'Beach Ball 2',
+                        icon = 'baseball',
+                        type = 'client',
+                        event = 'createballbea2',
+                        shouldClose = true
+                    },
                 }
             },{
                 id = 'clothesmenu',
