@@ -1,7 +1,7 @@
 Config = {}
 Config.Keybind = 'F1' -- FiveM Keyboard, this is registered keymapping, so needs changed in keybindings if player already has this mapped.
 Config.Toggle = false -- use toggle mode. False requires hold of key
-Config.UseWhilstWalking = false -- use whilst walking
+Config.UseWhilstWalking = true -- use whilst walking
 Config.EnableExtraMenu = true
 Config.Fliptime = 15000
 
@@ -166,7 +166,7 @@ Config.MenuItems = {
                         }
                     }
                 }
-            },  {
+            },  { --added for action with balls
                 id = 'ballgames',
                 title = 'Ball Games',
                 icon = 'baseball-bat-ball',
@@ -631,6 +631,13 @@ Config.JobInteractions = {
             event = 'qb-tunerchip:client:TuneStatus',
             shouldClose = true
         }, {
+            id = 'handcuff',
+            title = 'Cuff',
+            icon = 'user-lock',
+            type = 'client',
+            event = 'police:client:CuffPlayerSoft',
+            shouldClose = true
+        },{
             id = 'resethouse',
             title = 'Reset house lock',
             icon = 'key',
