@@ -143,6 +143,13 @@ local function detachStretcher()
     isAttached = false
 end
 
+--added by pamela
+function IsPlayerOnStretcher()
+    local ped = PlayerPedId()
+    local attachedEntity = GetEntityAttachedTo(ped)
+    return attachedEntity and DoesEntityExist(attachedEntity)
+end
+
 -- Events
 
 RegisterNetEvent('qb-radialmenu:client:TakeStretcher', function()
@@ -264,6 +271,99 @@ RegisterNetEvent('qb-radialmenu:client:Result', function(isBusy, type)
         end
     end
 end)
+
+--added by Pamela
+RegisterNetEvent('qb-radialmenu:client:PutStretcherInAmbulance')
+AddEventHandler('qb-radialmenu:client:PutStretcherInAmbulance', function()
+    local vehicle = checkForVehicles()
+
+    if DoesEntityExist(vehicle) and IsVehicleModel(vehicle, GetHashKey('ambulance')) then
+        --local player = PlayerId()
+        local ped = PlayerPedId()
+        local pos = GetEntityCoords(PlayerPedId())
+        local vehiclePos = GetEntityCoords(vehicle)
+        local distance = #(pos - vehiclePos)
+
+        local isPlayerOnStretcher = IsPlayerOnStretcher()
+
+        if isPlayerOnStretcher then
+            -- If player is on stretcher, keep them attached while inserting into the ambulance
+            TriggerEvent('qb-radialmenu:client:AttachPlayerToStretcher')
+        end
+
+        if distance <= 5.0 then
+            SetEntityCoords(stretcherObject, vehiclePos.x, vehiclePos.y, vehiclePos.z)
+            FreezeEntityPosition(stretcherObject, true)
+            AttachEntityToEntity(stretcherObject, vehicle, 0, 0.0, -1.0, -1.0, 0.0, 0.0, 180.0, false, false, false, false, 2, true)
+            isAttached = true
+            QBCore.Functions.Notify("Stretcher placed in the back of the ambulance.", "success")
+        else
+            QBCore.Functions.Notify("You are too far from the back of the ambulance.", "error")
+        end
+    else
+        QBCore.Functions.Notify("You can only place the stretcher in the back of an ambulance.", "error")
+    end
+
+    if isPlayerOnStretcher then
+        -- If player was on stretcher, reattach them after inserting into the ambulance
+        TriggerEvent('qb-radialmenu:client:AttachPlayerToStretcher')
+    end
+end)
+
+RegisterNetEvent('qb-radialmenu:client:RemoveStretcherFromAmbulance')
+AddEventHandler('qb-radialmenu:client:RemoveStretcherFromAmbulance', function()
+    local vehicle = checkForVehicles()
+
+    if DoesEntityExist(vehicle) and IsVehicleModel(vehicle, GetHashKey('ambulance')) then
+        --local player = PlayerId()
+        local ped = PlayerPedId()
+        local pos = GetEntityCoords(PlayerPedId())
+        local vehiclePos = GetEntityCoords(vehicle)
+        local distance = #(pos - vehiclePos)
+
+        local isPlayerOnStretcher = IsPlayerOnStretcher()
+
+        if isPlayerOnStretcher then
+            -- If player was on stretcher, reattach them after inserting into the ambulance
+            TriggerEvent('qb-radialmenu:client:AttachPlayerToStretcher')
+        end
+
+        if distance <= 5.0 then
+            local attachedToAmbulance = NetworkGetEntityIsNetworked(stretcherObject) and NetworkGetEntityIsNetworked(stretcherObject) or false
+
+            if attachedToAmbulance then
+                local x, y, z = table.unpack(GetEntityCoords(PlayerPedId()))
+                DetachEntity(stretcherObject, false, false)  -- Detach without forcing
+                SetEntityCoords(stretcherObject, x, y, z)
+                SetEntityCollision(stretcherObject, true, true)
+                SetEntityVisible(stretcherObject, true)
+                QBCore.Functions.Notify("Stretcher removed from the back of the ambulance.", "success")
+            else
+                QBCore.Functions.Notify("There is no stretcher attached to remove.", "error")
+            end
+        else
+            QBCore.Functions.Notify("You are too far from the back of the ambulance.", "error")
+        end
+    else
+        QBCore.Functions.Notify("You can only remove a stretcher from the back of an ambulance.", "error")
+    end
+
+    if isPlayerOnStretcher then
+        -- If player was on stretcher, reattach them after inserting into the ambulance
+        TriggerEvent('qb-radialmenu:client:AttachPlayerToStretcher')
+    end
+end)
+
+RegisterNetEvent('qb-radialmenu:client:AttachPlayerToStretcher')
+AddEventHandler('qb-radialmenu:client:AttachPlayerToStretcher', function()
+    local ped = PlayerPedId()
+    local stretcherObject = GetClosestObjectOfType(GetEntityCoords(ped), 10.0, GetHashKey("prop_ld_binbag_01"), false, false, false)
+    
+    if DoesEntityExist(stretcherObject) then
+        AttachEntityToEntity(ped, stretcherObject, 0, 0, 0.0, 1.6, 0.0, 0.0, 360.0, 0.0, false, false, false, false, 2)
+    end
+end)
+--till here
 
 AddEventHandler('onResourceStop', function(resource)
     if resource == GetCurrentResourceName() then

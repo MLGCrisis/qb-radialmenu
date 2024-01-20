@@ -569,6 +569,20 @@ Config.JobInteractions = {
                     type = 'client',
                     event = 'qb-radialmenu:client:RemoveStretcher',
                     shouldClose = false
+                }, {
+                    id = 'putstretcherinambulance',
+                    title = 'Put in Ambulance',
+                    icon = 'arrow-down',
+                    type = 'client',
+                    event = 'qb-radialmenu:client:PutStretcherInAmbulance',
+                    shouldClose = false
+                }, {
+                    id = 'removestretcherfromambulance',
+                    title = 'Remove from Ambulance',
+                    icon = 'arrow-up',
+                    type = 'client',
+                    event = 'qb-radialmenu:client:RemoveStretcherFromAmbulance',
+                    shouldClose = false
                 }
             }
         }
